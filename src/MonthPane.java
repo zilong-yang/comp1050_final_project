@@ -2,8 +2,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 
 import static javafx.geometry.Pos.CENTER;
 
@@ -15,23 +14,24 @@ public class MonthPane extends VBox {
             "October", "November", "December"
     };
 
-    private final int month;
-    private final String strMonth;
-    private final Label lblMonth;
+    public static final double CELL_WIDTH = 150;
+    public static final double CELL_HEIGHT  = 100;
 
-    private static HBox weekLabels;
+    private final int month;
 
     protected GridPane days;
 
     public MonthPane(int month) {
         this.month = month;
-        strMonth = MONTHS[month];
+        String strMonth = MONTHS[month];
 
-        lblMonth = new Label(strMonth);
+        Label lblMonth = new Label(strMonth);
+        lblMonth.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 30));
         lblMonth.setTextAlignment(TextAlignment.CENTER);
 
-        weekLabels = new HBox();
-        Label[] week = {
+        HBox week = new HBox();
+        week.setAlignment(CENTER);
+        Label[] weekLabels = {
                 new Label("Sunday"),
                 new Label("Monday"),
                 new Label("Tuesday"),
@@ -40,46 +40,29 @@ public class MonthPane extends VBox {
                 new Label("Friday"),
                 new Label("Saturday"),
         };
-        weekLabels.setAlignment(CENTER);
-        weekLabels.getChildren().addAll(week);
+        for (Label label : weekLabels) {
+            label.setTextAlignment(TextAlignment.CENTER);
+            label.setPrefWidth(CELL_WIDTH);
+            label.setAlignment(CENTER);
+        }
+        week.setAlignment(CENTER);
+        week.getChildren().addAll(weekLabels);
 
         days = new GridPane();
         int count = 1;
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                days.add(new DayPane(count++), j, i);
+                days.add(new DayPane(String.valueOf(count++)), j, i);
             }
         }
 
+        week.setPrefWidth(days.getWidth());
         this.setAlignment(CENTER);
-        this.getChildren().addAll(lblMonth, weekLabels, days);
+        this.getChildren().addAll(lblMonth, week, days);
     }
 
     public int getMonth() {
         return month;
     }
 
-    private static class DayPane extends VBox {
-
-        int day;
-        String dayStr;
-
-        DayPane(int day) {
-            this.day = day;
-            dayStr = String.valueOf(day);
-
-            Text txtDay = new Text(dayStr);
-
-            this.getChildren().add(txtDay);
-            this.setAlignment(CENTER);
-            this.setPrefWidth(120);
-            this.setPrefHeight(100);
-            this.getStylesheets().add("styles.css");
-            this.getStyleClass().add("daypane");
-        }
-
-        public int getDay() {
-            return day;
-        }
-    }
 }
