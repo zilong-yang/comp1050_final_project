@@ -7,13 +7,13 @@ import javafx.scene.text.TextAlignment;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Event extends StackPane {
+public class ToDo extends StackPane {
 
     private String title;
 
     private Calendar start, end;
 
-    public Event(String title) {
+    public ToDo(String title) {
         this.title = title;
         start = new GregorianCalendar();
         end = new GregorianCalendar();
@@ -29,7 +29,7 @@ public class Event extends StackPane {
 
         this.getChildren().addAll(rect, text);
         this.setOnMouseClicked(event -> {
-            // todo: implement pop-up
+            // todo: implement pop-up to show to-do information
         });
     }
 

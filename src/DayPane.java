@@ -1,7 +1,6 @@
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +12,8 @@ public class DayPane extends BorderPane {
 
     private final String MESSAGE;
 
-    private VBox eventsBox; // todo: change to ScrollPane
-    protected List<Event> events;
+    private VBox toDosBox; // todo: change to ScrollPane
+    protected List<ToDo> toDos;
 
     DayPane(String day) {
         this.MESSAGE = day;
@@ -23,19 +22,19 @@ public class DayPane extends BorderPane {
         this.setTop(dayText);
         setAlignment(dayText, CENTER);
 
-        eventsBox = new VBox();
-        eventsBox.setAlignment(CENTER);
-        this.setBottom(eventsBox);
-        setAlignment(eventsBox, CENTER);
+        toDosBox = new VBox();
+        toDosBox.setAlignment(CENTER);
+        this.setBottom(toDosBox);
+        setAlignment(toDosBox, CENTER);
 
-        events = new ArrayList<>();
+        toDos = new ArrayList<>();
 
         this.setPrefWidth(MonthPane.CELL_WIDTH);
         this.setPrefHeight(MonthPane.CELL_HEIGHT);
         this.setOnMouseClicked(event -> {
-//                addEvent(new Event("hello"));
+                addEvent(new ToDo("hello"));
             // todo: implement pop-up
-            new Stage().show();
+//            new Stage().show();
         });
 
         this.getStylesheets().add("styles.css");
@@ -46,19 +45,19 @@ public class DayPane extends BorderPane {
         return MESSAGE;
     }
 
-    public void addEvent(Event event) {
-        events.add(event);
-        eventsBox.getChildren().add(event);
+    public void addEvent(ToDo toDo) {
+        toDos.add(toDo);
+        toDosBox.getChildren().add(toDo);
     }
 
-    public boolean removeEvent(Event event) {
-        boolean removed = events.remove(event);
-        eventsBox.getChildren().remove(event);
+    public boolean removeEvent(ToDo toDo) {
+        boolean removed = toDos.remove(toDo);
+        toDosBox.getChildren().remove(toDo);
 
         return removed;
     }
 
-    public List<Event> getEvents() {
-        return Collections.unmodifiableList(events);
+    public List<ToDo> getToDos() {
+        return Collections.unmodifiableList(toDos);
     }
 }

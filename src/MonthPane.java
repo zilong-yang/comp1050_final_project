@@ -6,6 +6,11 @@ import javafx.scene.text.*;
 
 import static javafx.geometry.Pos.CENTER;
 
+/**
+ * MonthPane is a VBox that shows the actual month layout with the
+ * month name, the names of the days in a week (Sunday, Monday, ...),
+ * and a GridPane that shows the days.
+ */
 public class MonthPane extends VBox {
 
     private final static String[] MONTHS = { "",
