@@ -10,15 +10,23 @@ import static javafx.geometry.Pos.CENTER;
 
 public class DayPane extends BorderPane {
 
-    private final String MESSAGE;
+    private final String year;
+    private final String month;
+    private final String day;
 
     private VBox toDosBox; // todo: change to ScrollPane
     protected List<ToDo> toDos;
 
-    DayPane(String day) {
-        this.MESSAGE = day;
+    public DayPane(int year, int month, int day) {
+        this(year + "", month + "", day + "");
+    }
 
-        Text dayText = new Text(MESSAGE);
+    public DayPane(String year, String month, String day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+
+        Text dayText = new Text(this.day);
         this.setTop(dayText);
         setAlignment(dayText, CENTER);
 
@@ -32,20 +40,28 @@ public class DayPane extends BorderPane {
         this.setPrefWidth(MonthPane.CELL_WIDTH);
         this.setPrefHeight(MonthPane.CELL_HEIGHT);
         this.setOnMouseClicked(event -> {
-                addEvent(new ToDo("hello"));
-            // todo: implement pop-up
-//            new Stage().show();
+            // todo: finish implementing pop-up
+            AddEventPopUp popUp = new AddEventPopUp(this);
+            popUp.show();
         });
 
         this.getStylesheets().add("styles.css");
         this.getStyleClass().add("daypane");
     }
 
-    public String get() {
-        return MESSAGE;
+    public int getYear() {
+        return Integer.parseInt(year);
     }
 
-    public void addEvent(ToDo toDo) {
+    public int getMonth() {
+        return Integer.parseInt(month);
+    }
+
+    public int getDay() {
+        return Integer.parseInt(day);
+    }
+
+    public void addToDo(ToDo toDo) {
         toDos.add(toDo);
         toDosBox.getChildren().add(toDo);
     }

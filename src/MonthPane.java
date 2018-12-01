@@ -2,8 +2,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import static java.util.Calendar.YEAR;
 import static javafx.geometry.Pos.CENTER;
 
 /**
@@ -55,9 +62,12 @@ public class MonthPane extends VBox {
 
         days = new GridPane();
         int count = 1;
+        Calendar c = new GregorianCalendar();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                days.add(new DayPane(String.valueOf(count++)), j, i);
+                // todo: change it to actual dates
+                days.add(new DayPane(String.valueOf(c.get(YEAR)),
+                        String.valueOf(c.get(Calendar.MONTH)), String.valueOf(count++)), j, i);
             }
         }
 

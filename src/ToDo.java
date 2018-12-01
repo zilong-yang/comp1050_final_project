@@ -13,6 +13,8 @@ public class ToDo extends StackPane {
 
     private Calendar start, end;
 
+    // todo: add color
+
     public ToDo(String title) {
         this.title = title;
         start = new GregorianCalendar();
@@ -49,11 +51,19 @@ public class ToDo extends StackPane {
         start.set(year, month, day, hour, minute);
     }
 
+    public void setStart(Calendar c) {
+        start = c;
+    }
+
     public void setEnd(int year, int month, int day) {
         setEnd(year, month, day, 0, 0);
     }
 
     public void setEnd(int year, int month, int day, int hour, int minute) {
         end.set(year, month, day, hour, minute);
+    }
+
+    public void setEnd(Calendar c) {
+        end = c;
     }
 }
