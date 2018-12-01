@@ -1,5 +1,6 @@
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -16,6 +17,10 @@ public class DayPane extends BorderPane {
 
     private VBox toDosBox; // todo: change to ScrollPane
     protected List<ToDo> toDos;
+
+    public DayPane() {
+        year = month = day = null;
+    }
 
     public DayPane(int year, int month, int day) {
         this(year + "", month + "", day + "");
@@ -40,13 +45,9 @@ public class DayPane extends BorderPane {
         this.setPrefWidth(MonthPane.CELL_WIDTH);
         this.setPrefHeight(MonthPane.CELL_HEIGHT);
         this.setOnMouseClicked(event -> {
-            // todo: finish implementing pop-up
-            AddEventPopUp popUp = new AddEventPopUp(this);
+            AddToDoPopUp popUp = new AddToDoPopUp(this);
             popUp.show();
         });
-
-        this.getStylesheets().add("styles.css");
-        this.getStyleClass().add("daypane");
     }
 
     public int getYear() {
@@ -66,7 +67,7 @@ public class DayPane extends BorderPane {
         toDosBox.getChildren().add(toDo);
     }
 
-    public boolean removeEvent(ToDo toDo) {
+    public boolean removeToDo(ToDo toDo) {
         boolean removed = toDos.remove(toDo);
         toDosBox.getChildren().remove(toDo);
 
@@ -75,5 +76,9 @@ public class DayPane extends BorderPane {
 
     public List<ToDo> getToDos() {
         return Collections.unmodifiableList(toDos);
+    }
+
+    public void setColor(Color color) {
+        setStyle("-fx-background-color: " + color.toString());
     }
 }

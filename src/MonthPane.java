@@ -10,7 +10,6 @@ import javafx.scene.text.TextAlignment;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static java.util.Calendar.YEAR;
 import static javafx.geometry.Pos.CENTER;
 
 /**
@@ -29,11 +28,14 @@ public class MonthPane extends VBox {
     public static final double CELL_WIDTH = 150;
     public static final double CELL_HEIGHT  = 100;
 
+    private final int year;
     private final int month;
 
     protected GridPane days;
 
-    public MonthPane(int month) {
+    public MonthPane(int year, int month) {
+        this.year = year;
+
         this.month = month;
         String strMonth = MONTHS[month];
 
@@ -60,14 +62,23 @@ public class MonthPane extends VBox {
         week.setAlignment(CENTER);
         week.getChildren().addAll(weekLabels);
 
+        @SuppressWarnings("MagicConstant")
+        Calendar c = new GregorianCalendar(year, month - 1, 1);
+
         days = new GridPane();
-        int count = 1;
-        Calendar c = new GregorianCalendar();
+        days.setGridLinesVisible(true);
+
+        int count = -c.get(Calendar.DAY_OF_WEEK) + 1;
+        int total = daysInMonth();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                // todo: change it to actual dates
-                days.add(new DayPane(String.valueOf(c.get(YEAR)),
-                        String.valueOf(c.get(Calendar.MONTH)), String.valueOf(count++)), j, i);
+                if (count >= 0 && count < total) {
+                    DayPane dayPane = new DayPane(year, month, count);
+                    days.add(dayPane, j, i);
+                } else
+                    days.add(new DayPane(), j, i);
+
+                count++;
             }
         }
 
@@ -80,4 +91,30 @@ public class MonthPane extends VBox {
         return month;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+    private int daysInMonth() {
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            default: {
+                if (new GregorianCalendar().isLeapYear(year))
+                    return 29;
+                return 28;
+            }
+        }
+    }
 }

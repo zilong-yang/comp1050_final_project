@@ -10,26 +10,31 @@ import java.util.GregorianCalendar;
 public class ToDo extends StackPane {
 
     private String title;
-
     private Calendar start, end;
 
-    // todo: add color
+    private Rectangle background;
+    private Color color;
+
+    public static Color[] AVAILABLE_COLORS = {
+            Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW,
+            Color.ORANGE, Color.PURPLE, Color.CYAN, Color.GREY
+    };
 
     public ToDo(String title) {
         this.title = title;
         start = new GregorianCalendar();
         end = new GregorianCalendar();
 
-        Rectangle rect = new Rectangle();
-        rect.setWidth(MonthPane.CELL_WIDTH - 5);
-        rect.setHeight(MonthPane.CELL_HEIGHT / 5);
-        rect.setFill(Color.WHITE);
-        rect.setStroke(((Color) rect.getFill()).darker());
+        background = new Rectangle();
+        background.setWidth(MonthPane.CELL_WIDTH - 5);
+        background.setHeight(MonthPane.CELL_HEIGHT / 5);
+        background.setFill(Color.WHITE);
+        background.setStroke(((Color) background.getFill()).darker());
 
         Text text = new Text(title);
         text.setTextAlignment(TextAlignment.LEFT);
 
-        this.getChildren().addAll(rect, text);
+        this.getChildren().addAll(background, text);
         this.setOnMouseClicked(event -> {
             // todo: implement pop-up to show to-do information
         });
@@ -65,5 +70,15 @@ public class ToDo extends StackPane {
 
     public void setEnd(Calendar c) {
         end = c;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+        background.setFill(color);
+        background.setStroke(color.darker());
     }
 }
