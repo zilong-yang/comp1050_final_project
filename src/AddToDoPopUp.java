@@ -26,6 +26,7 @@ public class AddToDoPopUp extends PopUp<VBox> {
         parent.setPadding(new Insets(10));
 
         tfToDoTitle = new TextField();
+        tfToDoTitle.setPromptText("Title");
 
         //noinspection MagicConstant
         today = new GregorianCalendar(
@@ -39,6 +40,12 @@ public class AddToDoPopUp extends PopUp<VBox> {
         btAdd.setOnAction(event -> {
             toDo.setTitle(getToDoTitle());
 
+            Tooltip toDoInfo = new Tooltip(
+                    String.format("%s, %d/%d/%d", getToDoTitle(), dayPane.getMonth(),
+                            dayPane.getDay(), dayPane.getYear())
+            );
+            Tooltip.install(toDo, toDoInfo);
+
             dayPane.addToDo(toDo);
             this.close();
         });
@@ -49,9 +56,7 @@ public class AddToDoPopUp extends PopUp<VBox> {
                 Color.LIGHTCYAN, Color.LIGHTYELLOW, Color.LIGHTGRAY
         );
         cbColor.setCellFactory(callback -> new ListCell<>() {
-            private final Rectangle r;
-
-            {
+            private final Rectangle r; {
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 r = new Rectangle(50, 10);
             }
@@ -69,7 +74,7 @@ public class AddToDoPopUp extends PopUp<VBox> {
             }
         });
 //        cbColor.setButtonCell(new ListCell<>());
-        cbColor.setOnAction(event -> toDo.setColor(cbColor.getSelectionModel().getSelectedItem()));
+        cbColor.setOnAction(event -> toDo.setColor(cbColor.getValue()));
 
         GridPane gridPane = new GridPane();
         gridPane.setVgap(10);

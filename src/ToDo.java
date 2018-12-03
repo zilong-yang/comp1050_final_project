@@ -1,3 +1,5 @@
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -9,7 +11,7 @@ import java.util.GregorianCalendar;
 
 public class ToDo extends StackPane {
 
-    private String title;
+    private StringProperty title;
     private Calendar start, end;
 
     private Rectangle background;
@@ -21,31 +23,29 @@ public class ToDo extends StackPane {
     };
 
     public ToDo(String title) {
-        this.title = title;
+        this.title = new SimpleStringProperty(title);
         start = new GregorianCalendar();
         end = new GregorianCalendar();
 
         background = new Rectangle();
-        background.setWidth(MonthPane.CELL_WIDTH - 5);
+        background.setWidth(MonthPane.CELL_WIDTH - 10);
         background.setHeight(MonthPane.CELL_HEIGHT / 5);
         background.setFill(Color.WHITE);
         background.setStroke(((Color) background.getFill()).darker());
 
         Text text = new Text(title);
         text.setTextAlignment(TextAlignment.LEFT);
+        text.textProperty().bind(this.title);
 
         this.getChildren().addAll(background, text);
-        this.setOnMouseClicked(event -> {
-            // todo: implement pop-up to show to-do information
-        });
     }
 
     public String getTitle() {
-        return title;
+        return title.get();
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title.set(title);
     }
 
     public void setStart(int year, int month, int day) {

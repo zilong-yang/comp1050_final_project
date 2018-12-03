@@ -1,5 +1,5 @@
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -44,9 +44,30 @@ public class DayPane extends BorderPane {
 
         this.setPrefWidth(MonthPane.CELL_WIDTH);
         this.setPrefHeight(MonthPane.CELL_HEIGHT);
+
+        final Insets DEFAULT_PADDING = new Insets(5);
+        this.setPadding(DEFAULT_PADDING);
+
         this.setOnMouseClicked(event -> {
             AddToDoPopUp popUp = new AddToDoPopUp(this);
             popUp.show();
+        });
+
+        final double BORDER_WIDTH = 2.5;
+        this.setOnMouseEntered(event -> {
+                this.setBorder(new Border(new BorderStroke(
+                        Color.GRAY,
+                        BorderStrokeStyle.SOLID,
+                        CornerRadii.EMPTY,
+                        new BorderWidths(BORDER_WIDTH)
+                )));
+
+                this.setPadding(new Insets(BORDER_WIDTH));
+        });
+
+        this.setOnMouseExited(event -> {
+            this.setPadding(DEFAULT_PADDING);
+            this.setBorder(Border.EMPTY);
         });
     }
 
@@ -79,6 +100,7 @@ public class DayPane extends BorderPane {
     }
 
     public void setColor(Color color) {
-        setStyle("-fx-background-color: " + color.toString());
+//        setStyle("-fx-background-color: LIGHTBLUE");
+        setBackground(new Background(new BackgroundFill(color, null, null)));
     }
 }

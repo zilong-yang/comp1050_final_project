@@ -2,6 +2,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -66,21 +67,24 @@ public class MonthPane extends VBox {
         Calendar c = new GregorianCalendar(year, month - 1, 1);
 
         days = new GridPane();
-        days.setGridLinesVisible(true);
 
         int count = -c.get(Calendar.DAY_OF_WEEK) + 1;
-        int total = daysInMonth();
+        int total = daysInMonth(year, month);
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 if (count >= 0 && count < total) {
                     DayPane dayPane = new DayPane(year, month, count);
                     days.add(dayPane, j, i);
-                } else
-                    days.add(new DayPane(), j, i);
+                } else {
+                    DayPane dayPane = new DayPane();
+                    days.add(dayPane, j, i);
+                    dayPane.setColor(Color.LIGHTGREY);
+                }
 
                 count++;
             }
         }
+        days.setGridLinesVisible(true);
 
         week.setPrefWidth(days.getWidth());
         this.setAlignment(CENTER);
@@ -95,7 +99,7 @@ public class MonthPane extends VBox {
         return year;
     }
 
-    private int daysInMonth() {
+    public static int daysInMonth(int year, int month) {
         switch (month) {
             case 1:
             case 3:
@@ -116,5 +120,9 @@ public class MonthPane extends VBox {
                 return 28;
             }
         }
+    }
+
+    public static String getMonthName(int month) {
+        return MONTHS[month];
     }
 }
