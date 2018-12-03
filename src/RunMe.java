@@ -12,4 +12,8 @@ public class RunMe extends Application {
         primaryStage.setTitle("Planner");
         primaryStage.show();
     }
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
 }
