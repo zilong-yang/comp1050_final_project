@@ -1,3 +1,5 @@
+package finalproject;
+
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -9,24 +11,60 @@ import java.util.List;
 
 import static javafx.geometry.Pos.CENTER;
 
-public class DayPane extends BorderPane {
+/**
+ * This class represents a day in a calendar/planner. The user
+ * can interact with the pane to add or remove to-do's.
+ */
+public final class DayPane extends BorderPane {
 
+    /**
+     * The specific date of this day pane.
+     */
     private final String year;
     private final String month;
     private final String day;
 
-    private VBox toDosBox; // todo: change to ScrollPane
-    protected List<ToDo> toDos;
+    /**
+     * The list of to-do's of this day and its graphical representation.
+     */
+    private final VBox toDosBox;
+    protected final List<ToDo> toDos;
 
+    /**
+     * Creates an empty DayPane that has no event and initializes
+     * all fields to null. Note that there is no information stored
+     * in an instance created by this constructor.
+     */
     public DayPane() {
         year = month = day = null;
+        toDosBox = null;
+        toDos = null;
     }
 
+    /**
+     * Creates a DayPane with the given year, month, and day as
+     * three integers.
+     *
+     * @param year  the year
+     * @param month the month
+     * @param day   the day
+     */
     public DayPane(int year, int month, int day) {
         this(year + "", month + "", day + "");
     }
 
-    public DayPane(String year, String month, String day) {
+    /**
+     * Creates and initializes a DayPane with the given year, month,
+     * and day as three Strings. This constructor is intended for
+     * internal use.
+     *
+     * @see #DayPane(int, int, int)
+     *
+     * @param year  the year
+     * @param month the month
+     * @param day   the day
+     */
+    protected DayPane(String year, String month, String day) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -71,23 +109,27 @@ public class DayPane extends BorderPane {
         });
     }
 
-    public int getYear() {
-        return Integer.parseInt(year);
-    }
+    // getters
+    public int getYear()    { return Integer.parseInt(year); }
+    public int getMonth()   { return Integer.parseInt(month); }
+    public int getDay()     { return Integer.parseInt(day); }
 
-    public int getMonth() {
-        return Integer.parseInt(month);
-    }
-
-    public int getDay() {
-        return Integer.parseInt(day);
-    }
-
+    /**
+     * Adds a to-do to this day.
+     *
+     * @param toDo  the to-do being added
+     */
     public void addToDo(ToDo toDo) {
         toDos.add(toDo);
         toDosBox.getChildren().add(toDo);
     }
 
+    /**
+     * Deletes a to-do from this day.
+     *
+     * @param toDo  the to-do being deleted
+     * @return  true if deleted successfully
+     */
     public boolean removeToDo(ToDo toDo) {
         boolean removed = toDos.remove(toDo);
         toDosBox.getChildren().remove(toDo);
@@ -95,12 +137,22 @@ public class DayPane extends BorderPane {
         return removed;
     }
 
+    /**
+     * Returns the list of to-do's in this day pane.
+     *
+     * @return  a list of to-do's.
+     */
     public List<ToDo> getToDos() {
         return Collections.unmodifiableList(toDos);
     }
 
+    /**
+     * Changes the background color of this pane.
+     *
+     * @param color the new color
+     */
     public void setColor(Color color) {
-//        setStyle("-fx-background-color: LIGHTBLUE");
-        setBackground(new Background(new BackgroundFill(color, null, null)));
+        setBackground(new Background(
+                new BackgroundFill(color, null, null)));
     }
 }
